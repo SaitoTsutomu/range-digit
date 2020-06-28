@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "range-digit"
-version = "0.0.1"
+version = "0.0.2"
 description = ""
 authors = ["SaitoTsutomu <tsutomu7@hotmail.co.jp>"]
 homepage = "https://github.com/SaitoTsutomu/range-digit"
@@ -11,6 +11,8 @@ classifiers = [
    "Topic :: Software Development",
    "Topic :: Scientific/Engineering",
 ]
+license = "PSFL"
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.8"
