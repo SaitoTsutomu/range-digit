@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "range-digit"
-version = "0.0.2"
+version = "0.0.3"
 description = ""
 authors = ["SaitoTsutomu <tsutomu7@hotmail.co.jp>"]
 homepage = "https://github.com/SaitoTsutomu/range-digit"

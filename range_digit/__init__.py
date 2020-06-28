@@ -1,16 +1,19 @@
 from copy import copy
-from decimal import Decimal
+from decimal import ROUND_HALF_UP, Decimal
 
 
 def digits2str(digits):
+    """List of digits to str"""
     return "".join(str(i) for i in digits)
 
 
 def tuple2decimal(sign, digits, exponent):
+    """Value of as_tuple to Decimal"""
     return Decimal(f"{'-' * sign}{digits2str(digits)}e{exponent}")
 
 
 def change_digits(digits, num):
+    """Change digits by num"""
     n = len(digits) - 1
     digits[n] += num
     while digits[n] < 0:
@@ -19,6 +22,19 @@ def change_digits(digits, num):
             digits[n - 1] -= 1
         n -= 1
     return digits
+
+
+def overflow(digits):
+    """Overflow digits"""
+    p = 0
+    lst = []
+    for i in reversed(digits):
+        p += i
+        p, q = p // 10, p % 10
+        lst.append(q)
+    if p:
+        lst.append(p)
+    return list(reversed(lst))
 
 
 class RangeDigit:
@@ -142,17 +158,19 @@ class RangeDigit:
     def __repr__(self):
         if self.low.is_signed() != self.sup.is_signed():
             return self.tostr()
+        if self.low == self.sup:
+            return str(self.low)
         if self.low < 0:
             return "-" + repr(abs(self))
-        s0 = str(self.low)
-        s1 = str(self.sup)
-        s2 = str((self.low + self.sup) / 2)
-        lst = []
-        for c1, c2 in zip(s1, s2):
-            if c1 != c2:
+        sign, digits, exponent = self.sup.as_tuple()
+        sup = tuple2decimal(sign, change_digits(list(digits), -1), exponent)
+        sup = max(self.low, sup)
+        num = max(self.low.as_tuple()[2], sup.as_tuple()[2])
+        while True:
+            d = Decimal(f"1e{num}")
+            el = self.low.quantize(d, ROUND_HALF_UP)
+            es = sup.quantize(d, ROUND_HALF_UP)
+            if el == es:
                 break
-            lst.append(c1)
-        n = len(lst)
-        if len(s0) > n and lst[n - 1] == s0[n - 1] and s0[n] >= "5":
-            lst[n - 1] = chr(ord(lst[n - 1]) + 1)
-        return "".join(lst)
+            num += 1
+        return str(el)
