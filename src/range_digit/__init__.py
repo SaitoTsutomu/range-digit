@@ -43,7 +43,7 @@ class RangeDigit:
         if exact or digits == (0,):
             sup = low = digits
         else:
-            sup = list(digits) + [5]
+            sup = [*list(digits), 5]
             low = change_digits(sup.copy(), -10)
             if sign:
                 low, sup = sup, low
