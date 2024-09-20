@@ -38,7 +38,7 @@ def overflow(digits):
 
 
 class RangeDigit:
-    def __init__(self, value, exact=False):
+    def __init__(self, value, *, exact=False):
         sign, digits, exponent = Decimal(value).as_tuple()
         if exact or digits == (0,):
             sup = low = digits
