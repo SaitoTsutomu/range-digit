@@ -1,5 +1,10 @@
 from copy import copy
 from decimal import ROUND_HALF_UP, Decimal
+from importlib.metadata import metadata
+
+_package_metadata = metadata(__package__)
+__version__ = _package_metadata["Version"]
+__author__ = _package_metadata.get("Author-email", "")
 
 
 def digits2str(digits):
