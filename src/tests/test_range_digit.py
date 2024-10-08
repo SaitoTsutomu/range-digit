@@ -1,3 +1,4 @@
+# flake8: noqa: S101
 from decimal import Decimal
 
 from range_digit import RangeDigit
